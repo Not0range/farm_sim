@@ -1,3 +1,4 @@
+import 'package:farm_sim/overlays/main_menu.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:mmkv/mmkv.dart';
@@ -14,6 +15,9 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GameWidget<MainGame>(game: MainGame());
+    return GameWidget<MainGame>(
+      game: MainGame(),
+      overlayBuilderMap: {'MainMenu': mainMenuOverlay},
+    );
   }
 }
