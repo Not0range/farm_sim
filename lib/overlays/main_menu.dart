@@ -1,4 +1,4 @@
-import 'package:flame/widgets.dart' hide SpriteButton;
+// import 'package:flame/widgets.dart' hide SpriteButton;
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
@@ -6,7 +6,9 @@ import '../components/sprite_button.dart';
 import '../main_game.dart';
 
 Widget mainMenuOverlay(BuildContext context, MainGame game) {
+  final overlays = game.overlays;
   final state = AppState.of(context).gameState;
+
   return Stack(
     children: [
       GestureDetector(behavior: HitTestBehavior.opaque, onTap: game.start),
@@ -22,12 +24,12 @@ Widget mainMenuOverlay(BuildContext context, MainGame game) {
                 SpriteButton(
                   type: SpriteType.empty,
                   size: 64,
-                  onTap: () => print('Info'),
+                  onTap: () => overlays.add('InfoMenu'),
                 ),
                 SpriteButton(
                   type: SpriteType.empty,
                   size: 64,
-                  onTap: () => print('Settings'),
+                  onTap: () => overlays.add('Settings'),
                 ),
               ],
             ),

@@ -4,10 +4,13 @@ import '../components/sprite_button.dart';
 import '../main_game.dart';
 
 Widget gameOverlay(BuildContext context, MainGame game) {
-  return _GameOverlay();
+  return _GameOverlay(game);
 }
 
 class _GameOverlay extends StatefulWidget {
+  final MainGame game;
+
+  const _GameOverlay(this.game);
   @override
   State<StatefulWidget> createState() => _GameOverlayState();
 }
@@ -24,7 +27,7 @@ class _GameOverlayState extends State<_GameOverlay> {
             SpriteButton(
               type: SpriteType.pause,
               size: 64,
-              onTap: () => print('Pause'),
+              onTap: () => widget.game.overlays.add('PauseMenu'),
             ),
             SpriteButton(
               type: SpriteType.inventory,

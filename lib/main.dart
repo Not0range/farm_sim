@@ -6,8 +6,11 @@ import 'package:provider/provider.dart';
 import 'app_state.dart';
 import 'main_game.dart';
 import 'overlays/game_overlay.dart';
+import 'overlays/info_menu.dart';
 import 'overlays/loading_overlay.dart';
 import 'overlays/main_menu.dart';
+import 'overlays/pause_menu.dart';
+import 'overlays/settings_menu.dart';
 
 void main() async {
   // await MMKV.initialize();
@@ -30,7 +33,10 @@ class MainApp extends StatelessWidget {
 
 const gameOverlays = {
   'MainMenu': mainMenuOverlay,
+  'InfoMenu': infoMenuOverlay,
+  'Settings': settingsMenuOverlay,
   'GameOverlay': gameOverlay,
+  'PauseMenu': pauseMenuOverlay,
   'Loading': loadingOverlay,
 };
 const persistOverlays = ['Loading'];
