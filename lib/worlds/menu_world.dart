@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flame/components.dart';
 // import 'package:flame/parallax.dart';
 
+import '../app_state.dart';
 import '../main_game.dart';
 
 class MenuWorld extends World with HasGameReference<MainGame> {
@@ -10,9 +11,6 @@ class MenuWorld extends World with HasGameReference<MainGame> {
 
   @override
   FutureOr<void> onLoad() async {
-    //TODO transit: animation start state
-
-    game.camera.viewfinder.position = Vector2.zero();
     // final parallax = await game.loadParallaxComponent([
     //   ParallaxImageData('menu/'),
     //   ParallaxImageData('menu/'),
@@ -20,9 +18,15 @@ class MenuWorld extends World with HasGameReference<MainGame> {
     // ]);
     // game.camera.backdrop = parallax;
     //TODO loading assets & change progress if needed
+  }
 
+  @override
+  void onMount() {
     //TODO transit: to menu
     //TODO after animation end
+    game.clearOverlays();
     game.overlays.add('MainMenu');
+    AppState.of(game.buildContext!, listen: false).gameState =
+        GameState.mainMenu;
   }
 }

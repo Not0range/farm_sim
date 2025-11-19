@@ -9,8 +9,14 @@ final _columnCount = 4;
 class SpriteButton extends StatelessWidget {
   final SpriteType type;
   final VoidCallback? onTap;
+  final double size;
 
-  const SpriteButton({super.key, required this.type, this.onTap});
+  const SpriteButton({
+    super.key,
+    required this.type,
+    this.onTap,
+    this.size = 32,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,17 +24,22 @@ class SpriteButton extends StatelessWidget {
       type: MaterialType.transparency,
       child: InkWell(
         onTap: onTap,
-        child: SpriteWidget.asset(
-          path: 'logo.png',
-          srcPosition: Vector2(
-            (type.index % _columnCount) * 32.0,
-            (type.index ~/ _columnCount) * 32.0,
+        borderRadius: BorderRadius.circular(150),
+        child: SizedBox(
+          width: size,
+          height: size,
+          child: SpriteWidget.asset(
+            path: 'icons.png',
+            srcPosition: Vector2(
+              (type.index % _columnCount) * 32.0,
+              (type.index ~/ _columnCount) * 32.0,
+            ),
+            srcSize: _sizeVector,
           ),
-          srcSize: _sizeVector,
         ),
       ),
     );
   }
 }
 
-enum SpriteType { settings, info }
+enum SpriteType { empty, settings, info, pause, inventory, building }
