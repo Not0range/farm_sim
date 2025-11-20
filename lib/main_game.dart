@@ -72,6 +72,7 @@ class MainGame extends FlameGame
     AppState.of(buildContext!, listen: false).gameState = GameState.loading;
     Future.delayed(Duration(seconds: 1), () {
       camera.moveTo(Vector2.zero());
+      camera.viewfinder.zoom = 1;
       clearOverlays();
       world = _menuWorld;
     });
