@@ -28,7 +28,7 @@ class FarmWorld extends World with HasGameReference<MainGame> {
       image: await game.images.load('tiles.png'),
       srcSize: Vector2.all(32),
     );
-    for (var r in regions.take(1)) {
+    for (var r in regions) {
       final matrix = MatrixUtils.create2DMatrix(h, w, initialValue: r['tile']);
       //TODO define overrides
 
