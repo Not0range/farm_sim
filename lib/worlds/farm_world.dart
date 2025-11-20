@@ -35,6 +35,7 @@ class FarmWorld extends World with HasGameReference<MainGame> {
       _regions.add(MapRegion(sprites, matrix, r['x'], r['y']));
     }
     addAll(_regions);
+    //TODO load saved game
   }
 
   @override

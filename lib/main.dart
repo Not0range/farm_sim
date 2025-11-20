@@ -1,9 +1,9 @@
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'package:mmkv/mmkv.dart';
 
 import 'app_state.dart';
+import 'common/mmkv/mmkv.dart';
 import 'main_game.dart';
 import 'overlays/game_overlay.dart';
 import 'overlays/info_menu.dart';
@@ -13,7 +13,7 @@ import 'overlays/pause_menu.dart';
 import 'overlays/settings_menu.dart';
 
 void main() async {
-  // await MMKV.initialize();
+  await MMKV.initialize();
   runApp(
     ChangeNotifierProvider(create: (_) => AppState(), child: const MainApp()),
   );
