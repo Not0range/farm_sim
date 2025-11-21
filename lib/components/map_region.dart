@@ -9,7 +9,7 @@ class MapRegion extends IsometricTileMapComponent with TapCallbacks {
   bool visible = true;
 
   MapRegion(super.tileset, super.matrix, this.xPos, this.yPos)
-    : super(destTileSize: Vector2.all(64), tileHeight: 8) {
+    : super(destTileSize: Vector2.all(64), tileHeight: 16) {
     position = getBlockRenderPositionInts(
       matrix[0].length * xPos,
       matrix.length * yPos,
