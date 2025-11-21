@@ -21,4 +21,13 @@ class MapRegion extends IsometricTileMapComponent with TapCallbacks {
   void render(Canvas canvas) {
     if (visible) super.render(canvas);
   }
+
+  @override
+  void onTapUp(TapUpEvent event) {
+    final block = getBlock(event.localPosition + position);
+    if (!containsBlock(block) || blockValue(block) == -1) {
+      return;
+    }
+    //TODO handle by object
+  }
 }

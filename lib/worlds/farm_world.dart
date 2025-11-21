@@ -13,7 +13,7 @@ import '../main_game.dart';
 import '../utils/matrix_utils.dart';
 
 class FarmWorld extends World with HasGameReference<MainGame> {
-  final _regions = <IsometricTileMapComponent>[];
+  final _regions = <MapRegion>[];
   double? _startZoom;
 
   @override
