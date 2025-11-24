@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math' as math;
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -48,11 +47,7 @@ class FarmWorld extends World with HasGameReference<MainGame> {
   void onScroll(PointerScrollInfo info) {
     final d = info.scrollDelta.global.y;
     final viewfinder = game.camera.viewfinder;
-    if (d > 0) {
-      viewfinder.zoom = math.max(0.5, viewfinder.zoom - 0.1);
-    } else if (d < 0) {
-      viewfinder.zoom = math.min(2, viewfinder.zoom + 0.1);
-    }
+    viewfinder.zoom = (viewfinder.zoom - 0.1 * d.sign).clamp(0.5, 2);
   }
 
   void onScaleStart(ScaleStartInfo info) {
@@ -63,10 +58,8 @@ class FarmWorld extends World with HasGameReference<MainGame> {
     final camera = game.camera;
     if (!info.scale.global.isIdentity()) {
       if (_startZoom == null) return;
-      camera.viewfinder.zoom = (_startZoom! * info.scale.global.y).clamp(
-        0.5,
-        2,
-      );
+      final result = _startZoom! * info.scale.global.y;
+      camera.viewfinder.zoom = (result).clamp(0.5, 2);
     } else {
       camera.moveBy(-info.delta.global / camera.viewfinder.zoom);
     }
