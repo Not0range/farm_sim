@@ -2,11 +2,11 @@ import 'package:flame/components.dart';
 
 import '../map_region.dart';
 
-abstract class TileObject extends PositionComponent with ParentIsA<MapRegion> {
+abstract class TileObject extends SpriteComponent with ParentIsA<MapRegion> {
   UnionType unionType;
   late Block _pos;
 
-  TileObject(Block position, this.unionType) : super() {
+  TileObject(super.image, Block position, this.unionType) : super.fromImage() {
     _pos = position;
   }
 
