@@ -1,15 +1,13 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
-import 'package:flutter/services.dart';
 
 import '../app_state.dart';
+import '../common/map.dart';
 import '../components/map_region.dart';
 import '../main_game.dart';
-import '../utils/matrix_utils.dart';
 
 class FarmWorld extends World with HasGameReference<MainGame> {
   final _regions = <MapRegion>[];
@@ -17,21 +15,15 @@ class FarmWorld extends World with HasGameReference<MainGame> {
 
   @override
   FutureOr<void> onLoad() async {
-    final mapJson = jsonDecode(await rootBundle.loadString('assets/map.json'));
-
-    final w = mapJson['size']['width'];
-    final h = mapJson['size']['height'];
-    final regions = mapJson['regions'] as List<dynamic>;
+    final w = FarmMap.size.width;
+    final h = FarmMap.size.height;
 
     final sprites = SpriteSheet(
       image: await game.images.load('tiles.png'),
       srcSize: Vector2.all(32),
     );
-    for (var r in regions) {
-      final matrix = MatrixUtils.create2DMatrix(h, w, initialValue: r['tile']);
-      //TODO define overrides
-
-      _regions.add(MapRegion(sprites, matrix, r['x'], r['y']));
+    for (var r in FarmMap.regions) {
+      _regions.add(MapRegion(sprites, r.getMatrix(w, h), r.x, r.y));
     }
     addAll(_regions);
     //TODO load saved game
