@@ -20,7 +20,8 @@ class MapRegion extends IsometricTileMapComponent with TapCallbacks {
     priority = xPos + yPos;
     objects = List.generate(
       matrix.length,
-      (_) => List.generate(matrix[0].length, (_) => null),
+      (_) => List.filled(matrix[0].length, null),
+      growable: false,
     );
   }
 
