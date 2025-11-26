@@ -22,8 +22,10 @@ class FarmWorld extends World with HasGameReference<MainGame> {
       image: await game.images.load('tiles.png'),
       srcSize: Vector2.all(32),
     );
-    for (var r in FarmMap.regions) {
-      _regions.add(MapRegion(sprites, r.getMatrix(w, h), r.x, r.y));
+    for (var i = 0; i < FarmMap.regions.length; i++) {
+      final r = FarmMap.regions[i];
+      final region = MapRegion(sprites, r.getMatrix(w, h), r.x, r.y);
+      _regions.add(region);
     }
     addAll(_regions);
     //TODO load saved game

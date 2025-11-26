@@ -3,10 +3,9 @@ import 'package:flame/components.dart';
 import '../map_region.dart';
 
 abstract class TileObject extends SpriteComponent with ParentIsA<MapRegion> {
-  UnionType unionType;
   late Block _pos;
 
-  TileObject(super.image, Block position, this.unionType) : super.fromImage() {
+  TileObject(super.image, Block position) : super.fromImage() {
     _pos = position;
   }
 
@@ -32,23 +31,4 @@ abstract class TileObject extends SpriteComponent with ParentIsA<MapRegion> {
   }
 
   void onTap();
-}
-
-enum UnionType {
-  nothing,
-  n,
-  e,
-  s,
-  w,
-  ns,
-  we,
-  ne,
-  se,
-  nw,
-  sw,
-  wne,
-  nes,
-  wse,
-  nws,
-  full,
 }
