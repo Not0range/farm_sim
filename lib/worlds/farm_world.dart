@@ -5,9 +5,12 @@ import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
 
 import '../app_state.dart';
+import '../common/flowers.dart';
 import '../common/map.dart';
 import '../components/map_region.dart';
+import '../components/tile_objects/flower_place.dart';
 import '../main_game.dart';
+import '../utils/time_module.dart';
 
 class FarmWorld extends World with HasGameReference<MainGame> {
   final _regions = <MapRegion>[];
@@ -27,7 +30,25 @@ class FarmWorld extends World with HasGameReference<MainGame> {
       final region = MapRegion(sprites, r.getMatrix(w, h), r.x, r.y);
       _regions.add(region);
     }
-    addAll(_regions);
+    await addAll(_regions);
+
+    await _regions[0].addAll([
+      FlowerPlace(
+        Block(0, 0),
+        type: Flowers.a,
+        lastHarvested: TimeModule.currentTime - 1,
+      ),
+      FlowerPlace(
+        Block(2, 0),
+        type: Flowers.a,
+        lastHarvested: TimeModule.currentTime - 25,
+      ),
+      FlowerPlace(
+        Block(4, 0),
+        type: Flowers.a,
+        lastHarvested: TimeModule.currentTime - 60,
+      ),
+    ]);
     //TODO load saved game
   }
 

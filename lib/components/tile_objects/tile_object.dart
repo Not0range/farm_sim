@@ -5,7 +5,7 @@ import '../map_region.dart';
 abstract class TileObject extends SpriteComponent with ParentIsA<MapRegion> {
   late Block _pos;
 
-  TileObject(super.image, Block position) : super.fromImage() {
+  TileObject(Block position) : super(size: Vector2.all(64)) {
     _pos = position;
   }
 
