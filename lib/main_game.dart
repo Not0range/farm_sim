@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:farm_sim/utils/time_module.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 import 'app_state.dart';
 import 'main.dart';
@@ -20,6 +24,15 @@ class MainGame extends FlameGame
   FutureOr<void> onLoad() async {
     _menuWorld = world as MenuWorld;
     overlays.add('Loading', priority: 999);
+
+    try {
+      final format = DateFormat("EEE, dd MMM yyyy HH:mm:ss z", 'en_US');
+      final res = await http.head(Uri.https('google.com'));
+      final date = format.parse(res.headers['Date']!);
+      TimeModule.diff = date.difference(DateTime.now()).inSeconds;
+    } on Exception {
+      if (kDebugMode) print('Skip date getting');
+    }
   }
 
   @override
