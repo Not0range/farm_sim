@@ -3,7 +3,7 @@ import '../utils/matrix_utils.dart';
 abstract final class FarmMap {
   static final size = _MapSize(20, 20);
   static final regions = [
-    _MapRegion(1, 1, 0, 0),
+    _MapRegion(1, 1, 0, 0, overrides: [_RegionOverride(2, 2, 3)]),
     _MapRegion(0, 0, 100, 0),
     _MapRegion(1, 0, 100, 0),
     _MapRegion(2, 0, 100, 0),
@@ -37,7 +37,13 @@ class _MapRegion {
       width,
       initialValue: tile,
     );
-    if (overrides != null) {}
+    if (overrides != null) {
+      for (var o in overrides!) {
+        if (o.y < 0 || o.y >= matrix.length) continue;
+        if (o.x < 0 || o.x >= matrix[o.y].length) continue;
+        matrix[o.y][o.x] = o.tile;
+      }
+    }
     return matrix;
   }
 }
