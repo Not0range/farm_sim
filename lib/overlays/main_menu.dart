@@ -1,4 +1,5 @@
 // import 'package:flame/widgets.dart' hide SpriteButton;
+import 'package:farm_sim/locale/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../app_state.dart';
@@ -34,9 +35,12 @@ Widget mainMenuOverlay(BuildContext context, MainGame game) {
               ],
             ),
             Expanded(
-              child: Align(
-                alignment: const FractionalOffset(0.5, 0.3),
-                // child: SpriteWidget.asset(path: 'logo.png'),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // SpriteWidget.asset(path: 'logo.png'),
+                  _StartInviteText(),
+                ],
               ),
             ),
           ],
@@ -44,4 +48,55 @@ Widget mainMenuOverlay(BuildContext context, MainGame game) {
       ),
     ],
   );
+}
+
+const _startTextStyle = TextStyle(
+  color: Colors.white,
+  shadows: [
+    Shadow(color: Colors.black, offset: Offset(2, 0), blurRadius: 1),
+    Shadow(color: Colors.black, offset: Offset(-2, 0), blurRadius: 1),
+    Shadow(color: Colors.black, offset: Offset(0, -2), blurRadius: 1),
+    Shadow(color: Colors.black, offset: Offset(0, 2), blurRadius: 1),
+  ],
+  letterSpacing: 3,
+);
+
+class _StartInviteText extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _StartInviteTextState();
+}
+
+class _StartInviteTextState extends State<_StartInviteText>
+    with SingleTickerProviderStateMixin {
+  late Animation<double> animation;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+    animation = Tween<double>(begin: 0.8, end: 1.2).animate(controller)
+      ..addListener(() {
+        setState(() {});
+      });
+    controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = AppLocalizations.of(context);
+    return ScaleTransition(
+      scale: animation,
+      child: Text(locale.startInvite, style: _startTextStyle),
+    );
+  }
 }

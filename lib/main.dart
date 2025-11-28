@@ -1,3 +1,4 @@
+import 'package:farm_sim/locale/app_localizations.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -20,14 +21,44 @@ void main() async {
   );
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<StatefulWidget> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> with WidgetsBindingObserver {
+  var _locale = AppLocalizations.supportedLocales[0];
+
+  @override
+  void initState() {
+    super.initState();
+    _locale = basicLocaleListResolution(
+      WidgetsBinding.instance.platformDispatcher.locales,
+      AppLocalizations.supportedLocales,
+    );
+  }
+
+  @override
+  void didChangeLocales(List<Locale>? locales) {
+    setState(() {
+      _locale = basicLocaleListResolution(
+        locales,
+        AppLocalizations.supportedLocales,
+      );
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GameWidget<MainGame>(
-      game: MainGame(),
-      overlayBuilderMap: gameOverlays,
+    return Localizations(
+      locale: _locale,
+      delegates: AppLocalizations.localizationsDelegates,
+      child: GameWidget<MainGame>(
+        game: MainGame(),
+        overlayBuilderMap: gameOverlays,
+      ),
     );
   }
 }
