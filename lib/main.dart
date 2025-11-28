@@ -11,6 +11,7 @@ import 'overlays/loading_overlay.dart';
 import 'overlays/main_menu.dart';
 import 'overlays/pause_menu.dart';
 import 'overlays/settings_menu.dart';
+import 'overlays/tile_info.dart';
 
 void main() async {
   await MMKV.initialize();
@@ -37,6 +38,7 @@ const gameOverlays = {
   'Settings': settingsMenuOverlay,
   'GameOverlay': gameOverlay,
   'PauseMenu': pauseMenuOverlay,
+  'TileInfo': tileInfoOverlay,
   'Loading': loadingOverlay,
 };
 const persistOverlays = ['Loading'];

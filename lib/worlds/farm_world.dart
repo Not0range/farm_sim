@@ -34,16 +34,19 @@ class FarmWorld extends World with HasGameReference<MainGame> {
 
     await _regions[0].addAll([
       FlowerPlace(
+        0,
         Block(0, 0),
         type: Flowers.a,
         lastHarvested: TimeModule.currentTime - 1,
       ),
       FlowerPlace(
+        1,
         Block(2, 0),
         type: Flowers.a,
         lastHarvested: TimeModule.currentTime - 25,
       ),
       FlowerPlace(
+        2,
         Block(4, 0),
         type: Flowers.a,
         lastHarvested: TimeModule.currentTime - 60,
@@ -54,7 +57,7 @@ class FarmWorld extends World with HasGameReference<MainGame> {
 
   @override
   void onMount() {
-    AppState.of(game.buildContext!, listen: false).gameState = GameState.farm;
+    game.state.gameState = GameState.farm;
     game.overlays.add('GameOverlay');
     game.camera.moveTo(_regions.first.center);
   }
@@ -63,6 +66,11 @@ class FarmWorld extends World with HasGameReference<MainGame> {
     final d = info.scrollDelta.global.y;
     final viewfinder = game.camera.viewfinder;
     viewfinder.zoom = (viewfinder.zoom - 0.1 * d.sign).clamp(0.5, 2);
+
+    if (game.state.info != null) {
+      game.state.info = null;
+      game.overlays.remove('TileInfo');
+    }
   }
 
   void onScaleStart(ScaleStartInfo info) {
@@ -77,6 +85,11 @@ class FarmWorld extends World with HasGameReference<MainGame> {
       camera.viewfinder.zoom = (result).clamp(0.5, 2);
     } else {
       camera.moveBy(-info.delta.global / camera.viewfinder.zoom);
+    }
+
+    if (game.state.info != null) {
+      game.state.info = null;
+      game.overlays.remove('TileInfo');
     }
   }
 

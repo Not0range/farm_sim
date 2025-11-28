@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
+import 'common/flowers.dart';
+
 class AppState extends ChangeNotifier {
   GameState _gameState = GameState.loading;
   final _streamController = StreamController<GameEvent>.broadcast();
@@ -15,6 +17,8 @@ class AppState extends ChangeNotifier {
   var _maxExp = _startLevelExp;
 
   late final resources = Resources(onResourceChanged);
+
+  TileInfo? _info;
 
   GameState get gameState => _gameState;
   set gameState(GameState value) {
@@ -58,7 +62,28 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  static AppState of(BuildContext context, {bool listen = true}) {
+  TileInfo? get info => _info;
+  set info(TileInfo? value) {
+    if (_info == value) return;
+    _info = value;
+    notifyListeners();
+  }
+
+  void updateRemainTime(double value) {
+    final t = value.round();
+    if (t == 0) {
+      _info = null;
+      notifyListeners();
+      return;
+    }
+
+    if (_info?.remainTime == t) return;
+    _info?.remainTime = t;
+    notifyListeners();
+  }
+
+  static AppState of(BuildContext? context, {bool listen = true}) {
+    if (context == null) throw Exception('BuildContext is null');
     return Provider.of(context, listen: listen);
   }
 }
@@ -93,4 +118,14 @@ class Resources {
     _coins += value;
     onChange('coins', _coins);
   }
+}
+
+class TileInfo {
+  final int id;
+  final double x;
+  final double y;
+  final Flower flower;
+  int remainTime;
+
+  TileInfo(this.id, this.x, this.y, this.flower, this.remainTime);
 }

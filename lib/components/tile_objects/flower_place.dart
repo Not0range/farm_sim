@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 
+import 'package:farm_sim/app_state.dart';
 import 'package:farm_sim/utils/constants.dart';
 import 'package:farm_sim/utils/time_module.dart';
 import 'package:flame/components.dart';
@@ -10,11 +11,12 @@ import '../../main_game.dart';
 import 'tile_object.dart';
 
 class FlowerPlace extends TileObject with HasGameReference<MainGame> {
+  int id;
   Flower? _type;
   SpriteGroupComponent? _sprite;
   double _remainTime = 0;
 
-  FlowerPlace(super.position, {Flower? type, int lastHarvested = 0}) {
+  FlowerPlace(this.id, super.position, {Flower? type, int lastHarvested = 0}) {
     _type = type;
     if (type != null) {
       _remainTime =
@@ -75,6 +77,10 @@ class FlowerPlace extends TileObject with HasGameReference<MainGame> {
         ? 1
         : 0;
     _sprite?.current = current;
+    if (game.state.info?.id == id) {
+      game.state.updateRemainTime(_remainTime);
+      if (_remainTime == 0) game.overlays.remove('TileInfo');
+    }
   }
 
   @override
@@ -114,11 +120,20 @@ class FlowerPlace extends TileObject with HasGameReference<MainGame> {
   }
 
   @override
-  void onTap() {
+  void onTap() async {
+    if (_type == null) return;
+
     if (_remainTime <= 0) {
-      print('Harvest');
+      game.state.resources.changeCoins(_type!.price);
+      _remainTime = _type!.growTime;
+      //TODO update last harvest date
     } else {
-      print('Show info');
+      final pos =
+          absoluteCenter -
+          game.camera.viewfinder.position +
+          game.camera.viewport.size / 2;
+      game.state.info = TileInfo(id, pos.x, pos.y, _type!, _remainTime.round());
+      game.overlays.add('TileInfo');
     }
   }
 }

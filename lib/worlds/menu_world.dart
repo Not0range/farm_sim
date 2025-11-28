@@ -26,7 +26,6 @@ class MenuWorld extends World with HasGameReference<MainGame> {
     //TODO after animation end
     game.clearOverlays();
     game.overlays.add('MainMenu');
-    AppState.of(game.buildContext!, listen: false).gameState =
-        GameState.mainMenu;
+    game.state.gameState = GameState.mainMenu;
   }
 }

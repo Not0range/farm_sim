@@ -18,10 +18,13 @@ class MainGame extends FlameGame
   late MenuWorld _menuWorld;
   FarmWorld? _farmWorld;
 
+  late final AppState state;
+
   MainGame() : super(world: MenuWorld());
 
   @override
   FutureOr<void> onLoad() async {
+    pauseWhenBackgrounded = false;
     _menuWorld = world as MenuWorld;
     overlays.add('Loading', priority: 999);
 
@@ -33,6 +36,11 @@ class MainGame extends FlameGame
     } on Exception {
       if (kDebugMode) print('Skip date getting');
     }
+  }
+
+  @override
+  void onAttach() {
+    state = AppState.of(buildContext, listen: false);
   }
 
   @override
@@ -72,7 +80,7 @@ class MainGame extends FlameGame
   }
 
   void start() {
-    AppState.of(buildContext!, listen: false).gameState = GameState.loading;
+    state.gameState = GameState.loading;
     Future.delayed(Duration(seconds: 1), () {
       camera.moveTo(Vector2.zero());
       clearOverlays();
@@ -82,7 +90,7 @@ class MainGame extends FlameGame
   }
 
   void returnToMainMenu() {
-    AppState.of(buildContext!, listen: false).gameState = GameState.loading;
+    state.gameState = GameState.loading;
     Future.delayed(Duration(seconds: 1), () {
       camera.moveTo(Vector2.zero());
       camera.viewfinder.zoom = 1;
