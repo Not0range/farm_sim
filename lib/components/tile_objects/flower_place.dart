@@ -124,6 +124,10 @@ class FlowerPlace extends TileObject with HasGameReference<MainGame> {
     if (_type == null) return;
 
     if (_remainTime <= 0) {
+      if (game.state.info != null) {
+        game.state.info = null;
+        game.overlays.remove('TileInfo');
+      }
       game.state.resources.changeCoins(_type!.price);
       _remainTime = _type!.growTime;
       //TODO update last harvest date
